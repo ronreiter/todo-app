@@ -1,5 +1,5 @@
-Todo list Webapp boilerplate
-=============================
+Complete Google App Engine + Backbone.js + Require.js Todo list Web App Example
+===============================================================================
 
 Based on the work of Thomas Davis (http://backbonetutorials.com/) and Jérôme Gravel-Niquet (http://jgn.me).
 
