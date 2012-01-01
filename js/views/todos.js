@@ -22,8 +22,10 @@ define([
     },
 
     initialize: function() {
-      this.model.bind('change', this.render, this);
-      this.model.bind('destroy', this.remove, this);
+      _.bindAll(this, 'render');
+
+      this.model.bind('change', this.render);
+      this.model.bind('destroy', this.remove);
     },
 
     render: function() {

@@ -24,15 +24,15 @@ define([
 
     // At initialization we bind to the relevant events on the `Todos`
     // collection, when items are added or changed. Kick things off by
-    // loading any preexisting todos that might be saved in *localStorage*.
+    // loading any preexisting todos from the server.
     initialize: function() {
       _.bindAll(this, 'addOne', 'addAll', 'render');
 
-      this.input    = this.$("#new-todo");
+      this.input = this.$("#new-todo");
 
-      Todos.bind('add',     this.addOne);
-      Todos.bind('reset',   this.addAll);
-      Todos.bind('all',     this.render);
+      Todos.bind('add', this.addOne);
+      Todos.bind('reset', this.addAll);
+      Todos.bind('all', this.render);
 
       Todos.fetch();
     },
@@ -70,7 +70,7 @@ define([
     },
 
     // If you hit return in the main input field, create new **Todo** model,
-    // persisting it to *localStorage*.
+    // persisting it to the server (will generate a POST request)
     createOnEnter: function(e) {
       if (e.keyCode != 13) return;
       Todos.create(this.newAttributes());
@@ -78,6 +78,8 @@ define([
     },
 
     // Clear all done todo items, destroying their models.
+    // This will cause the views to delete as well by sending an event,
+    // and will generate a DELETE request to the server)
     clearCompleted: function() {
       _.each(Todos.done(), function(todo){ todo.destroy(); });
       return false;
