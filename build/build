@@ -1,0 +1,2 @@
+# build project
+node r.js -o app.build.js

@@ -1,6 +1,5 @@
 define(['underscore', 'backbone'], function(_, Backbone) {
   var TodoModel = Backbone.Model.extend({
-    url: "/todos",
     // Default attributes for the todo.
     defaults: {
       content: "empty todo...",

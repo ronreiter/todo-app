@@ -7,7 +7,8 @@ define([
   ], function($, _, Backbone, Todo, todosTemplate){
   var TodoView = Backbone.View.extend({
     model: Todo,
-    //... is a list tag.
+    // tagName defines the type of tag to create
+    // when creating this type of view.
     tagName:  "li",
 
     // Cache the template function for a single item.
