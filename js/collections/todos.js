@@ -2,7 +2,7 @@ define([
   'underscore', 
   'backbone', 
   'models/todo'
-  ], function(_, Backbone, Store, Todo){
+  ], function(_, Backbone, Todo){
   
     var TodosCollection = Backbone.Collection.extend({
 
@@ -32,5 +32,5 @@ define([
     }
 
   });
-  return new TodosCollection;
+  return TodosCollection;
 });

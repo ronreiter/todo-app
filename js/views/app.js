@@ -5,7 +5,7 @@ define([
   'collections/todos',
   'views/todos',
   'text!templates/stats.html'
-  ], function($, _, Backbone, Todos, TodoView, statsTemplate){
+  ], function($, _, Backbone, TodosCollection, TodoView, statsTemplate){
   var AppView = Backbone.View.extend({
 
     // Instead of generating a new element, bind to the existing skeleton of
@@ -29,22 +29,23 @@ define([
       _.bindAll(this, 'addOne', 'addAll', 'render');
 
       this.input = this.$("#new-todo");
+      this.Todos = new TodosCollection();
 
-      Todos.bind('add', this.addOne);
-      Todos.bind('reset', this.addAll);
-      Todos.bind('all', this.render);
+      this.Todos.bind('add', this.addOne);
+      this.Todos.bind('reset', this.addAll);
+      this.Todos.bind('all', this.render);
 
-      Todos.fetch();
+      this.Todos.fetch();
     },
 
     // Re-rendering the App just means refreshing the statistics -- the rest
     // of the app doesn't change.
     render: function() {
-      var done = Todos.done().length;
+      var done = this.Todos.done().length;
       this.$('#todo-stats').html(this.statsTemplate({
-        total:      Todos.length,
-        done:       Todos.done().length,
-        remaining:  Todos.remaining().length
+        total:      this.Todos.length,
+        done:       this.Todos.done().length,
+        remaining:  this.Todos.remaining().length
       }));
     },
 
@@ -57,14 +58,14 @@ define([
 
     // Add all items in the **Todos** collection at once.
     addAll: function() {
-      Todos.each(this.addOne);
+      this.Todos.each(this.addOne);
     },
 
     // Generate the attributes for a new Todo item.
     newAttributes: function() {
       return {
         content: this.input.val(),
-        order:   Todos.nextOrder(),
+        order:   this.Todos.nextOrder(),
         done:    false
       };
     },
@@ -73,7 +74,7 @@ define([
     // persisting it to the server (will generate a POST request)
     createOnEnter: function(e) {
       if (e.keyCode != 13) return;
-      Todos.create(this.newAttributes());
+      this.Todos.create(this.newAttributes());
       this.input.val('');
     },
 
@@ -81,7 +82,7 @@ define([
     // This will cause the views to delete as well by sending an event,
     // and will generate a DELETE request to the server)
     clearCompleted: function() {
-      _.each(Todos.done(), function(todo){ todo.destroy(); });
+      _.each(this.Todos.done(), function(todo){ todo.destroy(); });
       return false;
     },
 
