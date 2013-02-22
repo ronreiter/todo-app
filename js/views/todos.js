@@ -25,8 +25,8 @@ define([
     initialize: function() {
       _.bindAll(this, 'render');
 
-      this.model.bind('change', this.render);
-      this.model.bind('destroy', this.remove);
+      this.model.bind('change', this.render, this);
+      this.model.bind('destroy', this.remove, this);
     },
 
     render: function() {
@@ -66,8 +66,11 @@ define([
 
     // Remove the item, destroy the model.
     clear: function() {
+      this.model.unbind('change', this.render, this);
+      this.model.unbind('destroy', this.remove, this);
       this.model.destroy();
       this.remove();
+
     }
 
   });
